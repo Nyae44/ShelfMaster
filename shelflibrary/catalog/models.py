@@ -20,6 +20,12 @@ class Genre(models.Model):
         """Returns the url to access a particular genre instance"""
         return reverse('genre-detail', args=[str(self.id)])
     
+class Language(models.Model):
+    """Model representing a language i.e English, French, Chinese etc"""
+    name = models.CharField(max_length = 200,
+                            unique = True,
+                            help_text = "Enter the books's natural language i.e English, French, Chinese")
+    
 class Book(models.Model):
     """Model representing a book (but not a copy of the book)"""
     title = models.CharField(max_length = 200)
@@ -44,7 +50,10 @@ class Book(models.Model):
     def get_absolute_url(self):
         """Returns the url to access a detail record for this books"""
         return reverse('book-detail', args=[str(self.id)])    
-    
+    def display_genre(self):
+        """Create a string for Genre. This is required to display genre in admin"""
+        return ', '.join(genre.name for genre in self.genre.all()[:3])
+    display_genre.short_description = 'Genre'
 class BookInstance(models.Model):
     """Model representing a specific copy of the book (that can be borrowed from the library)"""
     id = models.UUIDField(primary_key = True, default = uuid.uuid4,
