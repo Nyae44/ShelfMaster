@@ -55,5 +55,22 @@ class BookDetailView(generic.DetailView):
     template_name = '/home/nyae/django_projects/ShelfMaster/shelflibrary/catalog/templates/book_detail.html'
 
   
+class AuthorDetailView(generic.DetailView):
+    model = Author
+    context_object_name = 'author'
+    template_name = 'home/nyae/django_projects/ShelfMaster/shelflibrary/catalog/templates/book_detail.html'
 
-   
+class AuthorsListView(generic.ListView):
+    model = Author
+    context_object_name = 'author_list'
+    queryset = Author.objects.all()
+    template_name = 'home/nyae/django_projects/ShelfMaster/shelflibrary/catalog/templates/author_list.html'
+    
+    def get_queryset(self):
+        return Author.objects.all
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(object_list=object_list, **kwargs)
+        context['total_count'] = Author.objects.count()
+        return context
+
+        
