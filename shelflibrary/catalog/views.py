@@ -1,8 +1,12 @@
+from typing import Any
+from django.db.models.query import QuerySet
 from django.shortcuts import render
 
 from .models import Book, Author, BookInstance, Genre
 
 from django.views import generic
+from django.shortcuts import get_object_or_404
+from django.views.generic import DetailView
 
 # Create your views here.
 
@@ -28,16 +32,28 @@ def index(request):
     
     # Render the HTML template index.html with the data in the context variable 
     return render(request, 'index.html',context=context)
+# Created a function based view because the class based view was not rendering the books list
+def book_detail_view(request, primary_key):
+    book = get_object_or_404(Book, pk= primary_key)
+    return render(request,'catalog/book_detail.html', context={'book':book})
+    
 
 # Class based views 
 class BookListView(generic.ListView):
     model = Book
     
     context_object_name = 'book_list' # Your own name for the list as a template variable 
-    queryset = Book.objects.filter(title__icontains = 'war')[:5] # Get 5 books containing the title war 
-    template_name = 'books/book_list.html' # Specify your own template  name/location
-    
-    
+    # queryset = Book.objects.filter(title__icontains = 'war')[:5] # Get 5 books containing the title war 
+    queryset = Book.objects.all()
+    template_name ='/home/nyae/django_projects/ShelfMaster/shelflibrary/catalog/templates/book_list.html' #Specify your template location
+
 class BookDetailView(generic.DetailView):
     model = Book
-    
+
+    context_object_name = 'book'
+    queryset = Book.objects.all()
+    template_name = '/home/nyae/django_projects/ShelfMaster/shelflibrary/catalog/templates/book_detail.html'
+
+  
+
+   
