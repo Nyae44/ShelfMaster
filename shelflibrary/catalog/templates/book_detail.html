@@ -1,7 +1,7 @@
 {% extends "base_generic.html" %}
 {% block content %}
 <h1>Title: {{book.title}}</h1>
-<p><strong>Author:</strong><a href="{{book.author}}"></a></p>
+<p><strong>Author:</strong><a href="{{book.author.get_absolute_url}}">{{book.author}}</a></p>
 <!--Author detail link not yet defined-->
 <p><strong>Summary:</strong>{{ book.summary }}</p>
 <p><strong>ISBN:</strong>{{ book.isbn }}</p>
@@ -17,7 +17,7 @@
     {% if copy.status != 'a' %}
     <p><strong>Due to be returned: </strong>{{copy.due_back}}</p>
     {% endif %}
-<p><strong>Imprint:</strong>{{copy.imprint}}</p>
+<p><strong>Imprint:</strong>{{ copy.imprint }}</p>
 <p class="text-muted"><strong>Id:</strong></p>
 {% endfor %}
 </div>
