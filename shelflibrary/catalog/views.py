@@ -68,7 +68,7 @@ class AuthorsListView(generic.ListView):
     model = Author
     context_object_name = 'author_list'
     queryset = Author.objects.all()
-    template_name = 'catalog/author_list.html'
+    template_name = 'templates/author_list.html'
     
 
         
