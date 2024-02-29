@@ -7,9 +7,13 @@ from .models import Book, Author, BookInstance, Genre
 from django.views import generic
 from django.shortcuts import get_object_or_404
 from django.views.generic import DetailView
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 # Create your views here.
 
+
+@login_required
 def index(request):
     """View function for home page of site"""
     # Generate the counts of some of the main objects 
@@ -51,7 +55,7 @@ class BookListView(generic.ListView):
     queryset = Book.objects.all()
     template_name ='/home/nyae/django_projects/ShelfMaster/shelflibrary/catalog/templates/book_list.html' #Specify your template location
 
-class BookDetailView(generic.DetailView):
+class BookDetailView(LoginRequiredMixin,generic.DetailView):
     model = Book
 
     context_object_name = 'book'
@@ -68,7 +72,7 @@ class AuthorsListView(generic.ListView):
     model = Author
     context_object_name = 'author_list'
     queryset = Author.objects.all()
-    template_name = 'templates/author_list.html'
+    template_name = 'home/nyae/django_projects/ShelfMaster/shelflibrary/templates/author_list.html'
     
 
         
