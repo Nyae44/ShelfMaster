@@ -72,7 +72,19 @@ class AuthorsListView(generic.ListView):
     model = Author
     context_object_name = 'author_list'
     queryset = Author.objects.all()
-    template_name = 'home/nyae/django_projects/ShelfMaster/shelflibrary/templates/author_list.html'
+    template_name = 'home/nyae/django_projects/ShelfMaster/shelflibrary/catalog/templates/author_list.html'
     
-
+    
+class LoanedBooksByUserListView(LoginRequiredMixin, generic.ListView):
+    """Generic class-based view listing books on loan to current user"""
+    model = BookInstance
+    template_name = 'catalog/bookinstance_list_borrowed_user.html'
+    paginate_by = 10
+    
+    def get_queryset(self):
+        return(
+            BookInstance.objects.filter(borrower = self.request.user)
+            .filter(status = 0)
+            .order_by('due_back')
+        )
         
