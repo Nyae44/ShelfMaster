@@ -39,6 +39,7 @@ class BookAdmin(admin.ModelAdmin):
 
 class BookInstanceAdmin(admin.ModelAdmin):
     # To filter items to be displayed we use the list_filter attribute
+    list_display = ('book', 'status', 'borrower', 'due_back', 'id')
     list_filter = ('status', 'due_back')
     
     # To add sections we use fieldsets 
@@ -48,6 +49,6 @@ class BookInstanceAdmin(admin.ModelAdmin):
             'fields' : ('book', 'imprint', 'id')
         }),
         ('Availability',{
-            'fields' : ('status','due_back')
+            'fields' : ('status','due_back', 'borrower')
         })
     )
